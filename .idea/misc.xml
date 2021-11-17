@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/add_doctor_card_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/change_card_dialog.xml" value="0.2015625" />
+        <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/doctor_card_list_item.xml" value="0.36666666666666664" />
         <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/fragment_appointments.xml" value="0.2957427536231884" />
-        <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/fragment_doctors.xml" value="0.2957427536231884" />
+        <entry key="..\:/projects/DoctorAppointments/app/src/main/res/layout/fragment_doctors.xml" value="0.25" />
         <entry key="..\:/projects/DoctorAppointments/app/src/main/res/menu/bottom_menu.xml" value="0.36666666666666664" />
       </map>
     </option>

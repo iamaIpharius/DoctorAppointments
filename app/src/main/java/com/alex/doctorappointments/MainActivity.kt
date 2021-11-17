@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 private const val LAST_SELECTED_ITEM = "LAST_SELECTED_ITEM"
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationMenu: BottomNavigationView
@@ -16,6 +17,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
         bottomNavigationMenu = findViewById(R.id.bottom_navigation_menu)
 
 

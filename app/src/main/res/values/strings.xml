@@ -4,4 +4,13 @@
     <string name="appointments">Записи</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_doctor_card">Изменить</string>
+    <string name="delete_doctor_card">Удалить</string>
+    <string name="add_doctor_card">Кнопка добавления врача</string>
+    <string name="dialog_name">Имя</string>
+    <string name="dialog_speciality">Специальность</string>
+    <string name="dialog_hospital">Медучреждение</string>
+    <string name="dialog_phone">Номер телефона</string>
+    <string name="dialog_cancel">отмена</string>
+    <string name="dialog_approve">Принять</string>
 </resources>

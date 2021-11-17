@@ -1,32 +1,23 @@
 package com.alex.doctorappointments
 
+
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DoctorsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DoctorsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    companion object {
+        lateinit var dbHandler: DBHandler
     }
 
     override fun onCreateView(
@@ -34,26 +25,93 @@ class DoctorsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctors, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_doctors, container, false)
+
+        dbHandler = DBHandler(view.context, null, null, 1)
+        fun viewDoctors(){
+            val doctorsList: ArrayList<DoctorCard> = dbHandler.getDoctors(view.context)
+            val adapter = DoctorCardAdapter(view.context, doctorsList)
+            val doctorsRecyclerView: RecyclerView = view.findViewById(R.id.doctors_recycler_view)
+            doctorsRecyclerView.layoutManager =
+                LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false) as RecyclerView.LayoutManager
+            doctorsRecyclerView.adapter = adapter
+        }
+        viewDoctors()
+//        val doctorCardList = mutableListOf(
+//            DoctorCard()
+//        )
+
+
+
+//        val doctorsRecyclerView: RecyclerView = view.findViewById(R.id.doctors_recycler_view)
+//        doctorsRecyclerView.layoutManager =
+//            LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
+//        doctorsRecyclerView.adapter = DoctorCardAdapter(view.context, doctorCardList as ArrayList<DoctorCard>)
+
+        val addDoctorButton: FloatingActionButton =
+            view.findViewById(R.id.floating_action_button_to_add_doctor_card)
+        addDoctorButton.setOnClickListener {
+
+
+            val mDialogView =
+                LayoutInflater.from(view.context).inflate(R.layout.add_doctor_card_dialog, null)
+
+            val mDialogBuilder = AlertDialog.Builder(view.context)
+                .setView(mDialogView)
+                .setTitle("Добавьте врача")
+            val mAlertDialog = mDialogBuilder.show()
+
+
+//
+//
+//
+            mDialogView.findViewById<Button>(R.id.dialog_approve).setOnClickListener {
+
+                val doctorName = mDialogView.findViewById<EditText>(R.id.dialog_doctor_name).text.toString()
+                val doctorSpec = mDialogView.findViewById<EditText>(R.id.dialog_doctor_speciality).text.toString()
+                val doctorHospital = mDialogView.findViewById<EditText>(R.id.dialog_doctor_hospital).text.toString()
+                val doctorPhone = mDialogView.findViewById<EditText>(R.id.dialog_doctor_phone).text.toString()
+
+
+                if (doctorName.isEmpty() or doctorSpec.isEmpty() or doctorHospital.isEmpty() or doctorPhone.isEmpty()) {
+                    Toast.makeText(view.context, "Зполните поля", Toast.LENGTH_SHORT).show()
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_name).requestFocus()
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_speciality).requestFocus()
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_hospital).requestFocus()
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_phone).requestFocus()
+                }
+                else
+                {   mAlertDialog.dismiss()
+                    val doctor = DoctorCard()
+                    doctor.name = doctorName
+                    doctor.speciality = doctorSpec
+                    doctor.hospital = doctorHospital
+                    doctor.phone = doctorPhone
+                    dbHandler.addDoctorCard(view.context, doctor)
+                    viewDoctors()
+                }
+//
+//                doctorCardList.add(DoctorCard(0,doctorName.toString(),
+//                    doctorSpec.toString(), doctorHospital.toString(), doctorPhone.toString()
+//                ))
+
+            }
+
+
+
+
+            mDialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
+                mAlertDialog.dismiss()
+            }
+
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DoctorsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DoctorsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
+
+
+
 }
