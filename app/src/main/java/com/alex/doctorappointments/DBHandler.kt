@@ -10,23 +10,28 @@ import android.widget.Toast
 import java.lang.Exception
 import java.util.prefs.PreferencesFactory
 
-class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) :
+class DBHandler(
+    context: Context,
+    name: String?,
+    factory: SQLiteDatabase.CursorFactory?,
+    version: Int
+) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
-        companion object {
-            private val DATABASE_NAME = "DoctorAppointmentsData.db"
-            private val DATABASE_VERSION = 1
+    companion object {
+        private val DATABASE_NAME = "DoctorAppointmentsData.db"
+        private val DATABASE_VERSION = 1
 
-            val DOCTORS_TABLE_NAME = "Doctors"
-            val COLUMN_DOCTOR_ID = "doctorId"
-            val COLUMN_DOCTOR_NAME = "doctorName"
-            val COLUMN_DOCTOR_SPEC = "doctorSpeciality"
-            val COLUMN_DOCTOR_HOSPITal = "doctorHospital"
-            val COLUMN_DOCTOR_PHONE = "doctorPhone"
-        }
+        val DOCTORS_TABLE_NAME = "Doctors"
+        val COLUMN_DOCTOR_ID = "doctorId"
+        val COLUMN_DOCTOR_NAME = "doctorName"
+        val COLUMN_DOCTOR_SPEC = "doctorSpeciality"
+        val COLUMN_DOCTOR_HOSPITal = "doctorHospital"
+        val COLUMN_DOCTOR_PHONE = "doctorPhone"
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val CREATE_DOCTORS_TABLE:String = ("CREATE TABLE $DOCTORS_TABLE_NAME (" +
+        val CREATE_DOCTORS_TABLE: String = ("CREATE TABLE $DOCTORS_TABLE_NAME (" +
                 "$COLUMN_DOCTOR_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$COLUMN_DOCTOR_NAME TEXT," +
                 "$COLUMN_DOCTOR_SPEC TEXT," +
@@ -46,24 +51,30 @@ class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorF
         val doctors = ArrayList<DoctorCard>()
 
         if (cursor.count == 0)
-            Toast.makeText(context, "No records found", Toast.LENGTH_SHORT).show() else
-            {
-                while (cursor.moveToNext()) {
-                    val doctorCard = DoctorCard()
-                    doctorCard.doctorId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_ID))
-                    doctorCard.name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_NAME))
-                    doctorCard.speciality = cursor.getString(cursor.getColumnIndexOrThrow(
-                        COLUMN_DOCTOR_SPEC))
-                    doctorCard.hospital = cursor.getString(cursor.getColumnIndexOrThrow(
-                        COLUMN_DOCTOR_HOSPITal))
-                    doctorCard.phone = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_PHONE))
-                    doctors.add(doctorCard)
-                }
-                Toast.makeText(context, "${cursor.count.toString()} Records Found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No records found", Toast.LENGTH_SHORT).show() else {
+            while (cursor.moveToNext()) {
+                val doctorCard = DoctorCard()
+                doctorCard.doctorId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_ID))
+                doctorCard.name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_NAME))
+                doctorCard.speciality = cursor.getString(
+                    cursor.getColumnIndexOrThrow(
+                        COLUMN_DOCTOR_SPEC
+                    )
+                )
+                doctorCard.hospital = cursor.getString(
+                    cursor.getColumnIndexOrThrow(
+                        COLUMN_DOCTOR_HOSPITal
+                    )
+                )
+                doctorCard.phone =
+                    cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DOCTOR_PHONE))
+                doctors.add(doctorCard)
+            }
+
         }
-            cursor.close()
-            db.close()
-            return doctors
+        cursor.close()
+        db.close()
+        return doctors
     }
 
     fun addDoctorCard(context: Context, doctorCard: DoctorCard) {
@@ -75,14 +86,15 @@ class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorF
         val db: SQLiteDatabase = this.writableDatabase
 
         try {
-            db.insert(DOCTORS_TABLE_NAME,null, values)
+            db.insert(DOCTORS_TABLE_NAME, null, values)
             Toast.makeText(context, "Доктор добавлен", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
         db.close()
     }
-    fun deleteDoctor(doctorID: Int) : Boolean{
+
+    fun deleteDoctor(doctorID: Int): Boolean {
         val qry = "Delete from $DOCTORS_TABLE_NAME where $COLUMN_DOCTOR_ID = $doctorID"
         val db: SQLiteDatabase = this.writableDatabase
         var result: Boolean = false
@@ -90,7 +102,7 @@ class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorF
         try {
             val cursor = db.execSQL(qry)
             result = true
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e(ContentValues.TAG, "Error Deleting")
         }
         db.close()
@@ -98,7 +110,13 @@ class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorF
 
     }
 
-    fun changeDoctor(id: String, doctorName: String, doctorSpec: String, doctorHospital: String, doctorPhone: String): Boolean {
+    fun changeDoctor(
+        id: String,
+        doctorName: String,
+        doctorSpec: String,
+        doctorHospital: String,
+        doctorPhone: String
+    ): Boolean {
         val db: SQLiteDatabase = this.writableDatabase
         val contentValues = ContentValues()
         var result: Boolean = false
@@ -109,7 +127,7 @@ class DBHandler(context: Context, name: String?, factory: SQLiteDatabase.CursorF
         try {
             db.update(DOCTORS_TABLE_NAME, contentValues, "$COLUMN_DOCTOR_ID = ?", arrayOf(id))
             result = true
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Log.e(ContentValues.TAG, "Error Changing")
             result = false
         }

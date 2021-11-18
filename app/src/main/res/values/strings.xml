@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">DoctorAppointments</string>
+    <string name="app_name">Мои Врачи</string>
     <string name="doctors">Врачи</string>
-    <string name="appointments">Записи</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="appointments">Важная информация</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_doctor_card">Изменить</string>
     <string name="delete_doctor_card">Удалить</string>
@@ -13,4 +12,6 @@
     <string name="dialog_phone">Номер телефона</string>
     <string name="dialog_cancel">отмена</string>
     <string name="dialog_approve">Принять</string>
+    <string name="covid_19_info">Важная информация о COVID-19</string>
+    <string name="go_to_site_button">Перейти</string>
 </resources>

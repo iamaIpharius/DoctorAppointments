@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                     fragment = DoctorsFragment()
                 }
                 R.id.appointments_section -> {
-                    fragment = AppointmentsFragment()
+                    fragment = ImportantInfoFragment()
                 }
             }
             replaceFragment(fragment!!)

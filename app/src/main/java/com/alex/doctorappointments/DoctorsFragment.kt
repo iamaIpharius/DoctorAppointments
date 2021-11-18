@@ -29,25 +29,20 @@ class DoctorsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_doctors, container, false)
 
         dbHandler = DBHandler(view.context, null, null, 1)
-        fun viewDoctors(){
+        fun viewDoctors() {
             val doctorsList: ArrayList<DoctorCard> = dbHandler.getDoctors(view.context)
             val adapter = DoctorCardAdapter(view.context, doctorsList)
             val doctorsRecyclerView: RecyclerView = view.findViewById(R.id.doctors_recycler_view)
             doctorsRecyclerView.layoutManager =
-                LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false) as RecyclerView.LayoutManager
+                LinearLayoutManager(
+                    view.context,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                ) as RecyclerView.LayoutManager
             doctorsRecyclerView.adapter = adapter
         }
         viewDoctors()
-//        val doctorCardList = mutableListOf(
-//            DoctorCard()
-//        )
 
-
-
-//        val doctorsRecyclerView: RecyclerView = view.findViewById(R.id.doctors_recycler_view)
-//        doctorsRecyclerView.layoutManager =
-//            LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
-//        doctorsRecyclerView.adapter = DoctorCardAdapter(view.context, doctorCardList as ArrayList<DoctorCard>)
 
         val addDoctorButton: FloatingActionButton =
             view.findViewById(R.id.floating_action_button_to_add_doctor_card)
@@ -63,26 +58,27 @@ class DoctorsFragment : Fragment() {
             val mAlertDialog = mDialogBuilder.show()
 
 
-//
-//
-//
+
             mDialogView.findViewById<Button>(R.id.dialog_approve).setOnClickListener {
 
-                val doctorName = mDialogView.findViewById<EditText>(R.id.dialog_doctor_name).text.toString()
-                val doctorSpec = mDialogView.findViewById<EditText>(R.id.dialog_doctor_speciality).text.toString()
-                val doctorHospital = mDialogView.findViewById<EditText>(R.id.dialog_doctor_hospital).text.toString()
-                val doctorPhone = mDialogView.findViewById<EditText>(R.id.dialog_doctor_phone).text.toString()
+                val doctorName =
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_name).text.toString()
+                val doctorSpec =
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_speciality).text.toString()
+                val doctorHospital =
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_hospital).text.toString()
+                val doctorPhone =
+                    mDialogView.findViewById<EditText>(R.id.dialog_doctor_phone).text.toString()
 
 
                 if (doctorName.isEmpty() or doctorSpec.isEmpty() or doctorHospital.isEmpty() or doctorPhone.isEmpty()) {
-                    Toast.makeText(view.context, "Зполните поля", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(view.context, "Заполните поля", Toast.LENGTH_SHORT).show()
                     mDialogView.findViewById<EditText>(R.id.dialog_doctor_name).requestFocus()
                     mDialogView.findViewById<EditText>(R.id.dialog_doctor_speciality).requestFocus()
                     mDialogView.findViewById<EditText>(R.id.dialog_doctor_hospital).requestFocus()
                     mDialogView.findViewById<EditText>(R.id.dialog_doctor_phone).requestFocus()
-                }
-                else
-                {   mAlertDialog.dismiss()
+                } else {
+                    mAlertDialog.dismiss()
                     val doctor = DoctorCard()
                     doctor.name = doctorName
                     doctor.speciality = doctorSpec
@@ -91,10 +87,7 @@ class DoctorsFragment : Fragment() {
                     dbHandler.addDoctorCard(view.context, doctor)
                     viewDoctors()
                 }
-//
-//                doctorCardList.add(DoctorCard(0,doctorName.toString(),
-//                    doctorSpec.toString(), doctorHospital.toString(), doctorPhone.toString()
-//                ))
+
 
             }
 
@@ -109,9 +102,6 @@ class DoctorsFragment : Fragment() {
 
         return view
     }
-
-
-
 
 
 }
